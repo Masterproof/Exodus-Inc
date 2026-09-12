@@ -1,53 +1,73 @@
-# Exodus Meme Forge
+# Exodus Inc V3
 
-A static meme-generator starter website designed to work on GitHub Pages.
+Static GitHub Pages website with:
 
-## Features
+- Meme generator
+- Funny caption presets/categories
+- Internet image search using Wikimedia Commons
+- Optional AI image generation using a user-supplied Pollinations API key
+- Google Drive video picker/player
+- Responsive tabbed interface so panels do not overlap
 
-- Upload an image from your computer or phone
-- Top and bottom meme text
-- Font, size, outline, text color controls
-- Multiple canvas sizes
-- Download finished meme as PNG
-- Local browser draft saving with localStorage
-- Dark/light theme
-- Responsive layout
-- No backend required
+## Publish
 
-## Run locally
+Upload these files to the root of the `Masterproof/Exodus-Inc` repository:
 
-Double-click `index.html`.
+- `index.html`
+- `style.css`
+- `script.js`
+- `README.md`
 
-## Publish with GitHub Pages
+Then commit the changes. GitHub Pages will redeploy automatically if Pages is already enabled.
 
-1. Create a GitHub repository.
-2. Upload `index.html`, `style.css`, and `script.js`.
-3. Open repository **Settings → Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select `main` and `/ (root)`.
-6. Save.
-7. GitHub will give you your public `github.io` address.
+## Google Drive configuration
 
-This starter site does not require Node.js, npm, a database, or an API key.
+In Google Cloud:
+
+1. Enable Google Drive API and Google Picker API.
+2. Create a Web OAuth Client ID.
+3. Authorized JavaScript origin: `https://masterproof.github.io`
+4. If the OAuth app is in Testing, add your Google account under Audience → Test users.
+5. Create a regular API key.
+6. Website restrictions:
+   - `https://masterproof.github.io/*`
+   - `https://docs.google.com/*`
+7. Restrict the API key to Google Drive API and Google Picker API.
+8. Find the Project Number under IAM & Admin → Settings. That Project Number is used as the Google Picker App ID.
+9. On the website, enter OAuth Client ID, API key, and Project Number.
+
+## Important
+
+GitHub Pages is static. Do not hard-code private paid API keys into the repository.
+The AI image tab stores a user-entered key only in that browser's local storage.
+Use only media and images you have the right to use.
 
 
-## Google Drive Media Setup
+## V4 Google config
 
-This version includes an optional Google Drive picker and embedded Drive preview player.
+V4 adds `google-config.js`.
 
-You need to create your own Google Cloud project and credentials:
+Edit only that file for Google Drive:
 
-1. Go to https://console.cloud.google.com/
-2. Create/select a project.
-3. Enable **Google Picker API** and **Google Drive API**.
-4. Configure the OAuth consent screen.
-5. Create an **OAuth 2.0 Client ID** for a Web application.
-6. Add your GitHub Pages origin under **Authorized JavaScript origins**, for example:
-   `https://YOUR-USERNAME.github.io`
-7. Create a Google API key and restrict it to your GitHub Pages site and the APIs you use.
-8. Open your website and paste the Client ID and API key into the Google Drive Media section.
-9. Click **Save Drive Settings → Connect Google Drive → Choose Movie / Cartoon**.
+```js
+window.EXODUS_GOOGLE_CONFIG = {
+  clientId: "YOUR_OAUTH_CLIENT_ID.apps.googleusercontent.com",
+  apiKey: "YOUR_GOOGLE_API_KEY",
+  appId: "YOUR_GOOGLE_PROJECT_NUMBER"
+};
+```
 
-The selected video stays in Google Drive. The site embeds Google's own Drive preview player, so large video files are not added to the GitHub repository.
+Then upload/replace these files in GitHub:
 
-Use this only for media you own or are authorized to access/stream.
+- `index.html`
+- `style.css`
+- `script.js`
+- `google-config.js`
+- `README.md`
+
+The Drive tab no longer asks you to type credentials.
+
+### Security note
+
+GitHub Pages is static and public. `google-config.js` is not secret.
+Restrict the Google API key to your website and only the required APIs.

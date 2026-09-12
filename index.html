@@ -1,192 +1,256 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Exodus Meme Forge</title>
-  <meta name="description" content="A free browser-based meme generator starter site for GitHub Pages." />
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exodus Inc — Meme Forge + Drive Media</title>
+  <meta name="description" content="Meme generator, image search, optional AI image generation, and Google Drive media player.">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="brand">
-      <div class="logo">⚒</div>
-      <div>
-        <h1>Exodus Meme Forge</h1>
-        <p>Create memes directly in your browser.</p>
-      </div>
+<header class="topbar">
+  <div class="brand">
+    <div class="mark">EX</div>
+    <div>
+      <h1>Exodus Inc</h1>
+      <p>Meme Forge + Cloud Media</p>
     </div>
-    <button id="themeBtn" class="secondary">Toggle theme</button>
-  </header>
+  </div>
+  <button id="themeBtn" class="btn ghost">Theme</button>
+</header>
 
-  <main class="layout">
-    <section class="panel controls">
-      <h2>Meme Controls</h2>
+<nav class="tabs" aria-label="Main sections">
+  <button class="tab active" data-tab="meme">Meme Forge</button>
+  <button class="tab" data-tab="search">Image Search</button>
+  <button class="tab" data-tab="ai">AI Image</button>
+  <button class="tab" data-tab="drive">Google Drive</button>
+  <button class="tab" data-tab="help">Setup / Help</button>
+</nav>
 
-      <label>
-        Upload image
-        <input id="imageInput" type="file" accept="image/*" />
-      </label>
+<main class="shell">
+  <section id="tab-meme" class="tab-panel active">
+    <div class="workspace">
+      <aside class="card controls">
+        <div class="section-title">
+          <h2>Meme Controls</h2>
+          <span id="memeStatus" class="status">Ready</span>
+        </div>
 
-      <div class="row">
-        <button id="blankBtn" class="secondary">Use blank canvas</button>
-        <button id="clearBtn" class="danger">Clear</button>
-      </div>
-
-      <label>
-        Top text
-        <input id="topText" type="text" placeholder="TOP TEXT" maxlength="120" />
-      </label>
-
-      <label>
-        Bottom text
-        <input id="bottomText" type="text" placeholder="BOTTOM TEXT" maxlength="120" />
-      </label>
-
-      <label>
-        Font
-        <select id="fontSelect">
-          <option value="Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">Impact</option>
-          <option value="Arial, sans-serif">Arial</option>
-          <option value="Georgia, serif">Georgia</option>
-          <option value="'Courier New', monospace">Courier New</option>
-        </select>
-      </label>
-
-      <div class="grid-2">
-        <label>
-          Font size
-          <input id="fontSize" type="range" min="24" max="100" value="58" />
+        <label>Upload your own image
+          <input id="imageInput" type="file" accept="image/*">
         </label>
 
-        <label>
-          Stroke
-          <input id="strokeSize" type="range" min="0" max="12" value="5" />
+        <div class="button-grid">
+          <button id="useLastImageBtn" class="btn secondary">Use Last Found Image</button>
+          <button id="blankBtn" class="btn secondary">Blank Canvas</button>
+        </div>
+
+        <label>Top text
+          <input id="topText" type="text" placeholder="TOP TEXT" maxlength="180">
         </label>
+
+        <label>Bottom text
+          <input id="bottomText" type="text" placeholder="BOTTOM TEXT" maxlength="180">
+        </label>
+
+        <label>Funny caption category
+          <select id="captionCategory">
+            <option value="random">Random</option>
+            <option value="cats">Cats</option>
+            <option value="gaming">Gaming</option>
+            <option value="work">Work</option>
+            <option value="school">School</option>
+            <option value="dnd">D&D</option>
+            <option value="reaction">Reaction</option>
+          </select>
+        </label>
+
+        <button id="funnyBtn" class="btn accent">Generate Funny Text</button>
+
+        <div class="two">
+          <label>Font size
+            <input id="fontSize" type="range" min="24" max="110" value="58">
+          </label>
+          <label>Outline
+            <input id="strokeSize" type="range" min="0" max="14" value="5">
+          </label>
+        </div>
+
+        <div class="two">
+          <label>Text color
+            <input id="textColor" type="color" value="#ffffff">
+          </label>
+          <label>Outline color
+            <input id="strokeColor" type="color" value="#000000">
+          </label>
+        </div>
+
+        <label>Canvas
+          <select id="sizeSelect">
+            <option value="800x800">Square 800×800</option>
+            <option value="1200x630">Wide 1200×630</option>
+            <option value="1080x1350">Portrait 1080×1350</option>
+            <option value="1080x1920">Story 1080×1920</option>
+          </select>
+        </label>
+
+        <label class="check">
+          <input id="uppercase" type="checkbox" checked>
+          Force uppercase meme text
+        </label>
+
+        <button id="downloadBtn" class="btn primary">Download Meme PNG</button>
+        <div class="button-grid">
+          <button id="saveBtn" class="btn secondary">Save Draft</button>
+          <button id="loadBtn" class="btn secondary">Load Draft</button>
+        </div>
+      </aside>
+
+      <section class="card preview">
+        <div class="section-title">
+          <h2>Preview</h2>
+          <button id="clearBtn" class="btn danger small">Clear</button>
+        </div>
+        <div class="canvas-holder">
+          <canvas id="memeCanvas" width="800" height="800"></canvas>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <section id="tab-search" class="tab-panel">
+    <div class="card">
+      <div class="section-title">
+        <div>
+          <h2>Internet Image Search</h2>
+          <p class="muted">Searches Wikimedia Commons. Results are loaded on demand, so they do not fill your GitHub repository.</p>
+        </div>
+        <span id="searchStatus" class="status">Ready</span>
       </div>
 
-      <div class="grid-2">
-        <label>
-          Text color
-          <input id="textColor" type="color" value="#ffffff" />
-        </label>
-
-        <label>
-          Outline color
-          <input id="strokeColor" type="color" value="#000000" />
-        </label>
+      <div class="search-row">
+        <input id="imageSearch" type="search" placeholder="cats, surprised dog, castle, space...">
+        <button id="searchBtn" class="btn primary">Search</button>
       </div>
 
-      <label>
-        Canvas size
-        <select id="sizeSelect">
-          <option value="800x800">Square 800×800</option>
-          <option value="1200x630">Wide 1200×630</option>
-          <option value="1080x1350">Portrait 1080×1350</option>
-        </select>
+      <div class="chips">
+        <button class="chip" data-query="funny cats">Cats</button>
+        <button class="chip" data-query="dogs">Dogs</button>
+        <button class="chip" data-query="video games">Gaming</button>
+        <button class="chip" data-query="medieval fantasy">Fantasy</button>
+        <button class="chip" data-query="space">Space</button>
+        <button class="chip" data-query="reaction face">Reaction</button>
+      </div>
+
+      <div id="imageResults" class="image-grid"></div>
+    </div>
+  </section>
+
+  <section id="tab-ai" class="tab-panel">
+    <div class="card">
+      <h2>AI Image Generator</h2>
+      <p class="muted">
+        Optional. Enter your own Pollinations API key at runtime. The key is saved only in this browser's local storage, not inside GitHub.
+      </p>
+
+      <label>Pollinations API key
+        <input id="aiKey" type="password" placeholder="Your key">
       </label>
 
-      <label class="checkbox">
-        <input id="uppercase" type="checkbox" checked />
-        Force uppercase text
+      <label>Image prompt
+        <textarea id="aiPrompt" rows="4" placeholder="Example: a confused orange cat wearing knight armor, dramatic fantasy tavern, meme composition"></textarea>
       </label>
 
-      <button id="downloadBtn" class="primary">Download Meme PNG</button>
-      <button id="saveBtn" class="secondary">Save Draft Locally</button>
-      <button id="loadBtn" class="secondary">Load Draft</button>
-
-      <p class="hint">Everything runs locally in your browser. No upload server is required.</p>
-    </section>
-
-    <section class="panel preview">
-      <div class="preview-head">
-        <h2>Preview</h2>
-        <span id="status">Ready</span>
+      <div class="two">
+        <label>Model
+          <select id="aiModel">
+            <option value="flux">Flux</option>
+          </select>
+        </label>
+        <label>Shape
+          <select id="aiShape">
+            <option value="1024x1024">Square</option>
+            <option value="1280x720">Wide</option>
+            <option value="720x1280">Portrait</option>
+          </select>
+        </label>
       </div>
 
-      <div class="canvas-wrap">
-        <canvas id="memeCanvas" width="800" height="800"></canvas>
+      <div class="button-grid">
+        <button id="saveAiKeyBtn" class="btn secondary">Save Key Locally</button>
+        <button id="generateAiBtn" class="btn accent">Generate Image</button>
       </div>
-    </section>
 
+      <div id="aiStatus" class="callout">No generation started.</div>
+      <div id="aiResult" class="ai-result"></div>
+    </div>
+  </section>
 
-    <section class="panel drive-panel">
-      <div class="preview-head">
+  <section id="tab-drive" class="tab-panel">
+    <div class="card">
+      <div class="section-title">
         <div>
           <h2>Google Drive Media</h2>
-          <p class="muted">Play video files from your own Google Drive without storing them in this GitHub site.</p>
+          <p class="muted">Play videos from your own Drive while the files remain stored in Google Drive.</p>
         </div>
-        <span id="driveStatus">Not connected</span>
+        <span id="driveStatus" class="status">Not connected</span>
       </div>
 
-      <div class="drive-config">
-        <label>
-          Google OAuth Client ID
-          <input id="googleClientId" type="text" placeholder="1234567890-abc123.apps.googleusercontent.com" />
-        </label>
-        <label>
-          Google API Key
-          <input id="googleApiKey" type="text" placeholder="AIza..." />
-        </label>
+      <div class="callout">
+        Google Drive is configured from <code>google-config.js</code>.
+        Edit that one file once, then use the buttons below.
       </div>
 
-      <div class="row">
-        <button id="saveDriveConfigBtn" class="secondary">Save Drive Settings</button>
-        <button id="connectDriveBtn" class="primary compact">Connect Google Drive</button>
+      <div class="button-grid">
+        <button id="connectDriveBtn" class="btn accent">Sign in to Google</button>
+        <button id="pickVideoBtn" class="btn primary" disabled>Choose Video</button>
       </div>
 
-      <div class="row">
-        <button id="pickVideoBtn" class="secondary" disabled>Choose Movie / Cartoon</button>
-        <button id="closeDrivePlayerBtn" class="secondary">Close Player</button>
-      </div>
+      <div id="driveError" class="callout hidden"></div>
+      <div id="driveNowPlaying" class="now-playing">No Drive video selected.</div>
 
-      <div id="driveNowPlaying" class="now-playing">No Drive file selected.</div>
-
-      <div class="drive-player-wrap">
-        <iframe
-          id="drivePlayer"
-          title="Google Drive media player"
+      <div class="video-frame">
+        <iframe id="drivePlayer"
+          title="Google Drive player"
           allow="autoplay; fullscreen"
           allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin"
-        ></iframe>
+          referrerpolicy="strict-origin-when-cross-origin"></iframe>
       </div>
 
-      <p class="hint">
-        This uses Google Drive's own preview player. The media stays in Google Drive and does not count against your GitHub Pages site storage.
-        Use only media you own or have permission to stream.
+      <button id="closeDrivePlayerBtn" class="btn secondary">Close Player</button>
+    </div>
+  </section>
+
+  <section id="tab-help" class="tab-panel">
+    <div class="card help">
+      <h2>Google Sign-In Checklist</h2>
+      <ol>
+        <li>Your OAuth client must be a <strong>Web application</strong>.</li>
+        <li>Authorized JavaScript origin must include <code>https://masterproof.github.io</code>.</li>
+        <li>If your OAuth app is in <strong>Testing</strong>, add your Google account under <strong>Audience → Test users</strong>.</li>
+        <li>Enable both <strong>Google Drive API</strong> and <strong>Google Picker API</strong>.</li>
+        <li>Your regular API key website restrictions should include <code>https://masterproof.github.io/*</code> and <code>https://docs.google.com/*</code>.</li>
+        <li>Use the Google Cloud <strong>Project Number</strong> as the App ID. You can find it under IAM &amp; Admin → Settings.</li>
+      </ol>
+
+      <h3>Why the old screen could fail</h3>
+      <p>
+        Google Picker still uses an OAuth Client ID, API key, and App ID/project number, but V4 reads all three from google-config.js so you do not type them into the webpage.
       </p>
-    </section>
 
-    <section class="panel features">
-      <h2>Starter Website Features</h2>
-      <div class="feature-grid">
-        <article>
-          <h3>⚡ GitHub Pages Ready</h3>
-          <p>No backend needed. Upload these files to a GitHub repository and publish.</p>
-        </article>
-        <article>
-          <h3>🖼 Meme Generator</h3>
-          <p>Upload images, add top/bottom text, customize colors and export PNG files.</p>
-        </article>
-        <article>
-          <h3>💾 Local Drafts</h3>
-          <p>Your settings can be saved in your browser using localStorage.</p>
-        </article>
-        <article>
-          <h3>📱 Responsive</h3>
-          <p>The layout adapts to desktop, tablet and phone screens.</p>
-        </article>
-      </div>
-    </section>
-  </main>
+      <h3>About AI images</h3>
+      <p>
+        GitHub Pages cannot safely hide a private AI service key because it is a static host. This build therefore asks for the key in the browser instead of hard-coding it into the public repository.
+      </p>
+    </div>
+  </section>
+</main>
 
-  <footer>
-    <p>Exodus Meme Forge • Static site starter</p>
-  </footer>
+<footer>Exodus Inc • Browser-based tools • GitHub Pages compatible</footer>
 
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://apis.google.com/js/api.js" async defer></script>
-  <script src="script.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://apis.google.com/js/api.js" async defer></script>
+<script src="google-config.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
