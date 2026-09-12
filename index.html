@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Exodus Meme Forge</title>
+  <meta name="description" content="A free browser-based meme generator starter site for GitHub Pages." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="logo">⚒</div>
+      <div>
+        <h1>Exodus Meme Forge</h1>
+        <p>Create memes directly in your browser.</p>
+      </div>
+    </div>
+    <button id="themeBtn" class="secondary">Toggle theme</button>
+  </header>
+
+  <main class="layout">
+    <section class="panel controls">
+      <h2>Meme Controls</h2>
+
+      <label>
+        Upload image
+        <input id="imageInput" type="file" accept="image/*" />
+      </label>
+
+      <div class="row">
+        <button id="blankBtn" class="secondary">Use blank canvas</button>
+        <button id="clearBtn" class="danger">Clear</button>
+      </div>
+
+      <label>
+        Top text
+        <input id="topText" type="text" placeholder="TOP TEXT" maxlength="120" />
+      </label>
+
+      <label>
+        Bottom text
+        <input id="bottomText" type="text" placeholder="BOTTOM TEXT" maxlength="120" />
+      </label>
+
+      <label>
+        Font
+        <select id="fontSelect">
+          <option value="Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif">Impact</option>
+          <option value="Arial, sans-serif">Arial</option>
+          <option value="Georgia, serif">Georgia</option>
+          <option value="'Courier New', monospace">Courier New</option>
+        </select>
+      </label>
+
+      <div class="grid-2">
+        <label>
+          Font size
+          <input id="fontSize" type="range" min="24" max="100" value="58" />
+        </label>
+
+        <label>
+          Stroke
+          <input id="strokeSize" type="range" min="0" max="12" value="5" />
+        </label>
+      </div>
+
+      <div class="grid-2">
+        <label>
+          Text color
+          <input id="textColor" type="color" value="#ffffff" />
+        </label>
+
+        <label>
+          Outline color
+          <input id="strokeColor" type="color" value="#000000" />
+        </label>
+      </div>
+
+      <label>
+        Canvas size
+        <select id="sizeSelect">
+          <option value="800x800">Square 800×800</option>
+          <option value="1200x630">Wide 1200×630</option>
+          <option value="1080x1350">Portrait 1080×1350</option>
+        </select>
+      </label>
+
+      <label class="checkbox">
+        <input id="uppercase" type="checkbox" checked />
+        Force uppercase text
+      </label>
+
+      <button id="downloadBtn" class="primary">Download Meme PNG</button>
+      <button id="saveBtn" class="secondary">Save Draft Locally</button>
+      <button id="loadBtn" class="secondary">Load Draft</button>
+
+      <p class="hint">Everything runs locally in your browser. No upload server is required.</p>
+    </section>
+
+    <section class="panel preview">
+      <div class="preview-head">
+        <h2>Preview</h2>
+        <span id="status">Ready</span>
+      </div>
+
+      <div class="canvas-wrap">
+        <canvas id="memeCanvas" width="800" height="800"></canvas>
+      </div>
+    </section>
+
+
+    <section class="panel drive-panel">
+      <div class="preview-head">
+        <div>
+          <h2>Google Drive Media</h2>
+          <p class="muted">Play video files from your own Google Drive without storing them in this GitHub site.</p>
+        </div>
+        <span id="driveStatus">Not connected</span>
+      </div>
+
+      <div class="drive-config">
+        <label>
+          Google OAuth Client ID
+          <input id="googleClientId" type="text" placeholder="1234567890-abc123.apps.googleusercontent.com" />
+        </label>
+        <label>
+          Google API Key
+          <input id="googleApiKey" type="text" placeholder="AIza..." />
+        </label>
+      </div>
+
+      <div class="row">
+        <button id="saveDriveConfigBtn" class="secondary">Save Drive Settings</button>
+        <button id="connectDriveBtn" class="primary compact">Connect Google Drive</button>
+      </div>
+
+      <div class="row">
+        <button id="pickVideoBtn" class="secondary" disabled>Choose Movie / Cartoon</button>
+        <button id="closeDrivePlayerBtn" class="secondary">Close Player</button>
+      </div>
+
+      <div id="driveNowPlaying" class="now-playing">No Drive file selected.</div>
+
+      <div class="drive-player-wrap">
+        <iframe
+          id="drivePlayer"
+          title="Google Drive media player"
+          allow="autoplay; fullscreen"
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
+        ></iframe>
+      </div>
+
+      <p class="hint">
+        This uses Google Drive's own preview player. The media stays in Google Drive and does not count against your GitHub Pages site storage.
+        Use only media you own or have permission to stream.
+      </p>
+    </section>
+
+    <section class="panel features">
+      <h2>Starter Website Features</h2>
+      <div class="feature-grid">
+        <article>
+          <h3>⚡ GitHub Pages Ready</h3>
+          <p>No backend needed. Upload these files to a GitHub repository and publish.</p>
+        </article>
+        <article>
+          <h3>🖼 Meme Generator</h3>
+          <p>Upload images, add top/bottom text, customize colors and export PNG files.</p>
+        </article>
+        <article>
+          <h3>💾 Local Drafts</h3>
+          <p>Your settings can be saved in your browser using localStorage.</p>
+        </article>
+        <article>
+          <h3>📱 Responsive</h3>
+          <p>The layout adapts to desktop, tablet and phone screens.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Exodus Meme Forge • Static site starter</p>
+  </footer>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://apis.google.com/js/api.js" async defer></script>
+  <script src="script.js"></script>
+</body>
+</html>
