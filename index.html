@@ -96,7 +96,19 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
 @media (max-width:980px){.hero{grid-template-columns:1fr;padding-top:60px;padding-bottom:150px}.hero-card{margin:0;max-width:460px}.feature-grid{grid-template-columns:repeat(2,1fr)}.command-layout{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr 1fr}.gallery-main{grid-column:1/-1}.join-box{grid-template-columns:1fr 1fr}.nav{position:fixed;top:74px;right:16px;left:16px;display:none;flex-direction:column;align-items:stretch;padding:18px;background:#11180f;border:3px solid #3d5036;box-shadow:8px 8px #000}.nav.open{display:flex}.menu-btn{display:block}}
 @media (max-width:620px){.topbar{height:64px}.brand{font-size:11px}.brand-cube{width:24px;height:24px}.nav{top:64px}.hero{min-height:auto;padding:58px 18px 135px}.hero h1{font-size:44px;letter-spacing:-2px}.eyebrow{font-size:9px}.hero-copy{font-size:15px}.server-card{min-width:100%;width:100%}.hero-actions .pixel-btn{width:100%}.server-card strong{font-size:15px}.hero-card{padding-left:18px;padding-right:18px}.feature-grid{grid-template-columns:1fr}.section{padding:75px 18px}.section-heading h2{font-size:28px}.command-list div{grid-template-columns:1fr;gap:7px}.gallery-grid{grid-template-columns:1fr}.gallery-placeholder{min-height:240px}.join-box{grid-template-columns:1fr}.join-inner h2{font-size:34px}.quick-stats{display:grid;grid-template-columns:1fr 1fr}.ticker div{font-size:8px;padding:14px 16px}}
 
+.google-panel { max-width: 1220px; margin: 0 auto; padding: 0 24px 90px; }
+.google-card { background: linear-gradient(180deg,#172015,#10170f); border:3px solid #33442d; box-shadow:6px 6px 0 #060806; padding:24px; display:flex; gap:22px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+.google-card h3 { margin:0 0 8px; font-family:"Press Start 2P",monospace; font-size:13px; line-height:1.6; }
+.google-card p { margin:0; color:#9da998; line-height:1.6; font-size:14px; max-width:760px; }
+.google-auth-actions { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+.google-status { font-size:12px; color:#b8c1b1; }
+.google-avatar { width:34px; height:34px; border-radius:50%; display:none; }
+.google-name { font-weight:800; color:#fff; }
+.google-signout { display:none; min-height:42px; padding:0 14px; }
+@media (max-width:620px){.google-panel{padding:0 18px 70px}.google-card{align-items:flex-start}.google-auth-actions{width:100%}}
+
   </style>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
   <div class="noise"></div>
@@ -223,6 +235,22 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
       </div>
     </section>
 
+
+    <section class="google-panel" aria-labelledby="google-connect-title">
+      <div class="google-card">
+        <div>
+          <h3 id="google-connect-title">Google Connection</h3>
+          <p>Optional Google sign-in for future Exodus website features. The public site still works without signing in.</p>
+        </div>
+        <div class="google-auth-actions">
+          <div id="googleSignInButton"></div>
+          <img id="googleAvatar" class="google-avatar" alt="Google profile" />
+          <span id="googleStatus" class="google-status">Not signed in</span>
+          <button id="googleSignOut" class="pixel-btn primary google-signout" type="button">SIGN OUT</button>
+        </div>
+      </div>
+    </section>
+
     <section id="join" class="join-section">
       <div class="join-inner">
         <span class="kicker">🔥 JOIN EXODUS RPG</span>
@@ -281,6 +309,84 @@ document.querySelectorAll('.nav a').forEach((a) => a.addEventListener('click', (
   nav.classList.remove('open');
   menuBtn.setAttribute('aria-expanded', 'false');
 }));
+
+// Google Identity Services configuration.
+// IMPORTANT: Do not place private secrets in a public GitHub Pages site.
+window.EXODUS_GOOGLE_CONFIG = {
+  clientId: "868821411419-6amgp0hnu4bvb55gqlbs0upn3rhl3f6c.apps.googleusercontent.com",
+  appId: "868821411419"
+};
+
+function decodeJwtPayload(token) {
+  try {
+    const payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const json = decodeURIComponent(atob(payload).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+    return JSON.parse(json);
+  } catch (e) {
+    return null;
+  }
+}
+
+function updateGoogleUi(profile) {
+  const status = document.getElementById('googleStatus');
+  const avatar = document.getElementById('googleAvatar');
+  const signOut = document.getElementById('googleSignOut');
+  const signInButton = document.getElementById('googleSignInButton');
+
+  if (profile) {
+    status.innerHTML = `<span class="google-name">${profile.name || profile.email || 'Signed in'}</span>`;
+    if (profile.picture) {
+      avatar.src = profile.picture;
+      avatar.style.display = 'inline-block';
+    }
+    signOut.style.display = 'inline-flex';
+    signInButton.style.display = 'none';
+  } else {
+    status.textContent = 'Not signed in';
+    avatar.removeAttribute('src');
+    avatar.style.display = 'none';
+    signOut.style.display = 'none';
+    signInButton.style.display = 'block';
+  }
+}
+
+function handleGoogleCredential(response) {
+  const profile = decodeJwtPayload(response.credential);
+  if (!profile) {
+    document.getElementById('googleStatus').textContent = 'Sign-in failed';
+    return;
+  }
+  sessionStorage.setItem('exodusGoogleProfile', JSON.stringify(profile));
+  updateGoogleUi(profile);
+}
+
+window.addEventListener('load', () => {
+  const cached = sessionStorage.getItem('exodusGoogleProfile');
+  if (cached) {
+    try { updateGoogleUi(JSON.parse(cached)); } catch (_) {}
+  }
+
+  if (window.google?.accounts?.id && window.EXODUS_GOOGLE_CONFIG.clientId) {
+    google.accounts.id.initialize({
+      client_id: window.EXODUS_GOOGLE_CONFIG.clientId,
+      callback: handleGoogleCredential
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById('googleSignInButton'),
+      { theme: 'outline', size: 'large', shape: 'rectangular', text: 'signin_with' }
+    );
+  } else {
+    document.getElementById('googleStatus').textContent = 'Google sign-in unavailable';
+  }
+
+  document.getElementById('googleSignOut').addEventListener('click', () => {
+    sessionStorage.removeItem('exodusGoogleProfile');
+    if (window.google?.accounts?.id) google.accounts.id.disableAutoSelect();
+    updateGoogleUi(null);
+  });
+});
+
 
   </script>
 </body>
