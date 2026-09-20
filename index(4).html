@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#10150e" />
+  <meta name="description" content="Exodus RPG — a community-focused Minecraft RPG Survival server with custom mobs, items, enchants, skills, economy, auction house, and protected claims." />
+  <title>EXODUS RPG | Minecraft RPG Survival</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+:root {
+  --bg: #0c100b;
+  --bg2: #131a10;
+  --panel: #1a2317;
+  --panel2: #202c1b;
+  --line: #35452d;
+  --grass: #69c43f;
+  --grass2: #3f8f2d;
+  --emerald: #54e39a;
+  --gold: #f3c94f;
+  --stone: #b7b9b3;
+  --white: #f5f7ef;
+  --muted: #a9b39f;
+  --shadow: rgba(0,0,0,.45);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--white);
+  background:
+    linear-gradient(rgba(255,255,255,.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.018) 1px, transparent 1px),
+    var(--bg);
+  background-size: 24px 24px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, sans-serif;
+  overflow-x: hidden;
+}
+a { color: inherit; }
+button { font: inherit; }
+.noise { position: fixed; inset: 0; pointer-events: none; z-index: 50; opacity: .07; background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,.25) 3px); mix-blend-mode: overlay; }
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  height: 74px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 max(22px, calc((100vw - 1220px)/2));
+  border-bottom: 3px solid #26311f;
+  background: rgba(10,14,9,.9); backdrop-filter: blur(14px);
+  box-shadow: 0 8px 25px rgba(0,0,0,.28);
+}
+.brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; font-family: "Press Start 2P", monospace; font-size: 15px; letter-spacing: .5px; }
+.brand b { color: var(--grass); }
+.brand-cube { width: 30px; height: 30px; display: inline-block; background: linear-gradient(#74ca47 0 32%, #7a4b2c 32%); box-shadow: inset -6px -6px rgba(0,0,0,.18), 3px 3px 0 #000; border: 2px solid #111; image-rendering: pixelated; }
+.nav { display: flex; align-items: center; gap: 24px; }
+.nav a { text-decoration: none; color: #dce5d6; font-weight: 800; font-size: 13px; text-transform: uppercase; letter-spacing: .6px; }
+.nav a:hover { color: var(--grass); }
+.nav-discord { padding: 10px 14px; background: #5865f2; border: 2px solid #7781ff; box-shadow: 3px 3px 0 #273091; }
+.menu-btn { display: none; color: white; background: #1a2417; border: 2px solid #42553a; width: 44px; height: 40px; cursor: pointer; }
+.hero { min-height: calc(100vh - 74px); display: grid; grid-template-columns: 1.25fr .75fr; align-items: center; gap: 58px; padding: 86px max(24px, calc((100vw - 1220px)/2)); position: relative; isolation: isolate; background: radial-gradient(circle at 80% 30%, rgba(81,159,48,.2), transparent 32%), radial-gradient(circle at 10% 70%, rgba(232,190,58,.08), transparent 35%), linear-gradient(180deg,#10170e,#0d120c); overflow: hidden; }
+.hero::after { content:""; position:absolute; left:0; right:0; bottom:0; height: 95px; background: linear-gradient(#5ea237 0 14%, #4c842f 14% 28%, #6d472e 28% 55%, #513522 55%); z-index:-2; box-shadow: inset 0 10px rgba(255,255,255,.05); }
+.hero-grid { position:absolute; inset:0; z-index:-4; opacity:.25; background-image: linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px), linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px); background-size:48px 48px; mask-image:linear-gradient(to bottom,black,transparent 80%); }
+.hero-content { max-width: 720px; position: relative; z-index: 2; }
+.eyebrow, .kicker { color: var(--gold); font-family: "Press Start 2P", monospace; font-size: 11px; line-height: 1.7; }
+.hero h1 { font-family: "Press Start 2P", monospace; font-size: clamp(50px, 7vw, 96px); line-height: .98; margin: 24px 0 18px; text-shadow: 6px 6px 0 #050705, 9px 9px 0 #2c4422; letter-spacing: -3px; }
+.hero h1 span { color: var(--grass); }
+.tagline { font-size: clamp(20px, 2vw, 30px); margin: 0 0 18px; font-weight: 900; color: #e8f1e2; }
+.hero-copy { color: var(--muted); max-width: 670px; line-height: 1.8; font-size: 17px; }
+.hero-actions { display:flex; flex-wrap:wrap; gap:16px; align-items:stretch; margin-top: 30px; }
+.server-card { min-width: 310px; color: white; text-align:left; cursor:pointer; border: 3px solid #64765a; background: linear-gradient(180deg,#273320,#182015); padding: 13px 18px; box-shadow: 5px 5px 0 #070907; }
+.server-card:hover { transform: translate(-2px,-2px); box-shadow: 7px 7px 0 #070907; }
+.server-card-label,.server-card strong,.copy-hint { display:block; }
+.server-card-label,.copy-hint { font-size: 9px; letter-spacing:1.2px; color:#aebaa7; font-family:"Press Start 2P",monospace; }
+.server-card strong { font-family:"Press Start 2P",monospace; font-size:20px; margin:9px 0; color:#fff; }
+.pixel-btn { display:inline-flex; justify-content:center; align-items:center; min-height:70px; padding: 0 22px; text-decoration:none; cursor:pointer; border:none; font-family:"Press Start 2P",monospace; font-size:11px; line-height:1.6; box-shadow: inset 0 -5px rgba(0,0,0,.25), 5px 5px 0 #070907; }
+.pixel-btn:hover { transform: translate(-2px,-2px); box-shadow: inset 0 -5px rgba(0,0,0,.25), 7px 7px 0 #070907; }
+.pixel-btn.primary { background: var(--grass); color:#0b1408; border:3px solid #8be467; }
+.pixel-btn.discord { background:#5865f2; color:white; border:3px solid #8189ff; }
+.quick-stats { display:flex; flex-wrap:wrap; gap:12px; margin-top:22px; }
+.quick-stats div { border-left:3px solid var(--grass); background:#121811; padding:11px 15px; min-width:140px; }
+.quick-stats small,.quick-stats b { display:block; }.quick-stats small { font-size:9px; color:#7e8a77; letter-spacing:1px; }.quick-stats b { margin-top:4px; font-size:12px; }
+.hero-card { position:relative; z-index:2; max-width:390px; margin-left:auto; padding:54px 28px 30px; border:4px solid #59654f; background:linear-gradient(180deg,#202a1d,#11170f); box-shadow: 14px 14px 0 rgba(0,0,0,.35), inset 0 0 0 2px #10150e; text-align:center; }
+.card-top { position:absolute; top:10px; left:14px; display:flex; gap:7px; }.card-top span { width:10px;height:10px;background:#53614b; }.card-top span:nth-child(1){background:#e06464}.card-top span:nth-child(2){background:#e3be4f}.card-top span:nth-child(3){background:#62b95b}
+.hero-card h3 { font-family:"Press Start 2P",monospace; font-size:19px; margin:24px 0 14px; }.hero-card p { color:#9eaa97; line-height:1.7; }
+.status-line { margin-top:20px; padding-top:18px; border-top:2px solid #2e3b29; font-size:12px; text-transform:uppercase; font-weight:800; letter-spacing:1px; }.status-dot { display:inline-block; width:10px;height:10px;background:#53d86d;box-shadow:0 0 15px #53d86d;margin-right:8px; }
+.sword-art { height:210px; position:relative; margin:auto; width:160px; transform:rotate(-45deg); }.sword-pixel{position:absolute;left:50%;transform:translateX(-50%);box-shadow: inset -8px -8px rgba(0,0,0,.18)}.blade{width:34px;height:140px;top:5px;background:linear-gradient(90deg,#bcecff 0 50%,#5ec9e9 50%);clip-path:polygon(50% 0,100% 14%,100% 100%,0 100%,0 14%);border:4px solid #143e4a}.guard{width:110px;height:24px;top:140px;background:#e1be43;border:4px solid #765d10}.handle{width:24px;height:65px;top:160px;background:#7b4b2b;border:4px solid #2e1a0e}
+.floating.block { position:absolute; width:58px;height:58px; opacity:.75; box-shadow:inset -10px -10px rgba(0,0,0,.2), 5px 5px 0 rgba(0,0,0,.2); image-rendering:pixelated; z-index:-1; }.grass{background:linear-gradient(#70bf44 0 30%,#74472d 30%)}.diamond{background:#46ccd0;border:8px solid #72eff1}.gold{background:#e9bc32;border:8px solid #ffe267}.b1{top:15%;left:4%;transform:rotate(10deg)}.b2{top:18%;right:4%;transform:rotate(-12deg)}.b3{bottom:17%;right:36%;transform:rotate(8deg)}
+.ticker { display:flex; gap:0; overflow:hidden; border-top:3px solid #222d1f; border-bottom:3px solid #222d1f; background:#171f15; white-space:nowrap; }.ticker div { padding:17px 24px; font-family:"Press Start 2P",monospace; font-size:10px; border-right:2px solid #2b3926; color:#d5ddce; }
+.section { max-width:1220px; margin:auto; padding:100px 24px; }.section-heading { text-align:center; max-width:760px; margin:0 auto 48px; }.section-heading.left { text-align:left; margin-left:0; }.section-heading h2 { font-family:"Press Start 2P",monospace; font-size:clamp(28px,4vw,48px); line-height:1.25; margin:18px 0; text-shadow:4px 4px 0 #000; }.section-heading p { color:var(--muted); line-height:1.8; font-size:16px; }.section-heading code{background:#1b2418;padding:3px 6px;border:1px solid #37472f}
+.feature-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }.feature-card { min-height:245px; padding:24px; background:linear-gradient(180deg,#1a2317,#141b12); border:3px solid #33442d; box-shadow:6px 6px 0 #060806; position:relative; overflow:hidden; }.feature-card::after { content:""; position:absolute; width:70px;height:70px; right:-25px;top:-25px;background:#4c7b33;opacity:.12;transform:rotate(45deg) }.feature-card:hover { border-color:#5f854b; transform:translateY(-3px); }.feature-icon { font-size:34px; margin-bottom:18px; filter:drop-shadow(3px 3px 0 #000); }.feature-card h3 { font-family:"Press Start 2P",monospace; font-size:13px; line-height:1.6; margin:0 0 14px; }.feature-card p { color:#9da998; line-height:1.7; margin:0; font-size:14px; }
+.commands-section { max-width:1320px; }.command-layout { display:grid; grid-template-columns:.82fr 1.18fr; gap:30px; align-items:start; }.command-list { display:grid; gap:10px; }.command-list div { display:grid; grid-template-columns:165px 1fr; gap:14px; align-items:center; padding:12px 14px; background:#151c13; border:2px solid #2d3b28; }.command-list code { color:#7fe56b; font-family:"Press Start 2P",monospace; font-size:9px; }.command-list span { color:#b8c1b1; font-size:13px; }.screenshot-frame,.gallery-main { margin:0; background:#161d14; border:4px solid #4a5b40; padding:8px; box-shadow:10px 10px 0 #060806; }.screenshot-frame img,.gallery-main img { display:block; width:100%; height:auto; image-rendering:auto; }.screenshot-frame figcaption,.gallery-main figcaption { padding:12px 8px 5px; color:#a8b2a1; font-size:12px; text-transform:uppercase; letter-spacing:1px; }
+.gallery-section { padding-top:70px; }.gallery-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:18px; }.gallery-main img { height:330px; object-fit:cover; }.gallery-placeholder { min-height:380px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; gap:14px; border:3px dashed #46583e; background:repeating-linear-gradient(45deg,#131a11,#131a11 14px,#161e14 14px,#161e14 28px); color:#7f8e79; }.gallery-placeholder span { font-family:"Press Start 2P"; font-size:42px;color:#5c7560 }.gallery-placeholder b { font-family:"Press Start 2P";font-size:10px;line-height:1.6 }.gallery-placeholder small { color:#667160 }
+.join-section { position:relative; padding:105px 24px; text-align:center; background:linear-gradient(rgba(9,12,8,.84),rgba(9,12,8,.94)), url('assets/server-commands.png') center/cover fixed; border-top:4px solid #46593e; border-bottom:4px solid #46593e; }.join-inner { max-width:1040px;margin:auto; }.join-inner h2 { font-family:"Press Start 2P";font-size:clamp(34px,6vw,70px); margin:18px 0;text-shadow:6px 6px #000 }.join-inner>p { color:#c2cbbd; }.join-box { display:grid; grid-template-columns:1.5fr .7fr auto auto; gap:10px; margin:36px auto 26px; padding:14px; background:#11170f; border:4px solid #526348; box-shadow:10px 10px #050705; text-align:left; }.join-box>div { padding:14px 16px; background:#1c2619;border:2px solid #303f2a }.join-box small,.join-box strong{display:block}.join-box small{font-size:9px;color:#84917e;letter-spacing:1px}.join-box strong{font-family:"Press Start 2P";font-size:13px;margin-top:9px}.join-box .pixel-btn { min-height:64px; }.battle-cry { font-family:"Press Start 2P";font-size:10px;line-height:2;color:var(--gold)!important; }
+footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-brand{justify-content:center;margin-bottom:18px}.footer-brand .brand-cube{width:24px;height:24px}.footer-brand{font-size:12px}footer p{color:#7f8a79;font-size:12px}.disclaimer{font-size:10px!important;color:#596254!important;margin-top:18px}
+#toast { position:fixed; left:50%; bottom:28px; transform:translate(-50%,30px); opacity:0; pointer-events:none; z-index:100; background:#7ad85e; color:#0b1208; border:3px solid #a1ef87; box-shadow:5px 5px #000; padding:13px 18px; font-family:"Press Start 2P"; font-size:9px; transition:.2s ease; }.toast-show{opacity:1!important;transform:translate(-50%,0)!important}
+.classes-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.class-card { padding:24px; background:linear-gradient(180deg,#1a2317,#11170f); border:3px solid #3a4b33; box-shadow:6px 6px 0 #060806; text-align:center; }
+.class-card:hover { transform:translateY(-3px); border-color:var(--gold); }
+.class-icon { font-size:42px; margin-bottom:14px; }
+.class-card h3 { font-family:"Press Start 2P",monospace; font-size:12px; line-height:1.6; color:var(--gold); margin:0 0 12px; }
+.class-card p { color:#9da998; line-height:1.6; font-size:13px; margin:0; }
+@media (max-width:980px){.classes-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.classes-grid{grid-template-columns:1fr}}
+
+@media (max-width:980px){.hero{grid-template-columns:1fr;padding-top:60px;padding-bottom:150px}.hero-card{margin:0;max-width:460px}.feature-grid{grid-template-columns:repeat(2,1fr)}.command-layout{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr 1fr}.gallery-main{grid-column:1/-1}.join-box{grid-template-columns:1fr 1fr}.nav{position:fixed;top:74px;right:16px;left:16px;display:none;flex-direction:column;align-items:stretch;padding:18px;background:#11180f;border:3px solid #3d5036;box-shadow:8px 8px #000}.nav.open{display:flex}.menu-btn{display:block}}
+@media (max-width:620px){.topbar{height:64px}.brand{font-size:11px}.brand-cube{width:24px;height:24px}.nav{top:64px}.hero{min-height:auto;padding:58px 18px 135px}.hero h1{font-size:44px;letter-spacing:-2px}.eyebrow{font-size:9px}.hero-copy{font-size:15px}.server-card{min-width:100%;width:100%}.hero-actions .pixel-btn{width:100%}.server-card strong{font-size:15px}.hero-card{padding-left:18px;padding-right:18px}.feature-grid{grid-template-columns:1fr}.section{padding:75px 18px}.section-heading h2{font-size:28px}.command-list div{grid-template-columns:1fr;gap:7px}.gallery-grid{grid-template-columns:1fr}.gallery-placeholder{min-height:240px}.join-box{grid-template-columns:1fr}.join-inner h2{font-size:34px}.quick-stats{display:grid;grid-template-columns:1fr 1fr}.ticker div{font-size:8px;padding:14px 16px}}
+
+.google-panel { max-width: 1220px; margin: 0 auto; padding: 0 24px 90px; }
+.google-card { background: linear-gradient(180deg,#172015,#10170f); border:3px solid #33442d; box-shadow:6px 6px 0 #060806; padding:24px; display:flex; gap:22px; align-items:center; justify-content:space-between; flex-wrap:wrap; }
+.google-card h3 { margin:0 0 8px; font-family:"Press Start 2P",monospace; font-size:13px; line-height:1.6; }
+.google-card p { margin:0; color:#9da998; line-height:1.6; font-size:14px; max-width:760px; }
+.google-auth-actions { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+.google-status { font-size:12px; color:#b8c1b1; }
+.google-avatar { width:34px; height:34px; border-radius:50%; display:none; }
+.google-name { font-weight:800; color:#fff; }
+.google-signout { display:none; min-height:42px; padding:0 14px; }
+@media (max-width:620px){.google-panel{padding:0 18px 70px}.google-card{align-items:flex-start}.google-auth-actions{width:100%}}
+
+  </style>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+  <div class="noise"></div>
+
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Exodus RPG home">
+      <span class="brand-cube" aria-hidden="true"></span>
+      <span>EXODUS <b>RPG</b></span>
+    </a>
+    <button class="menu-btn" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <nav class="nav">
+      <a href="#features">Features</a>
+      <a href="#classes">Classes</a>
+      <a href="#commands">Commands</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#join">Join</a>
+      <a class="nav-discord" href="https://discord.gg/shRX5nPGAf" target="_blank" rel="noopener">Discord</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <div class="hero-grid"></div>
+      <div class="floating block grass b1"></div>
+      <div class="floating block diamond b2"></div>
+      <div class="floating block gold b3"></div>
+
+      <div class="hero-content">
+        <div class="eyebrow">⚔ COMMUNITY RPG SURVIVAL ⚔</div>
+        <h1>EXODUS <span>RPG</span></h1>
+        <p class="tagline">Your Adventure. Your Kingdom. Your Legacy.</p>
+        <p class="hero-copy">Build your legend in a progression-focused Minecraft RPG world packed with dangerous custom mobs, powerful loot, skills, trading, protected claims, and a player-driven economy.</p>
+
+        <div class="hero-actions">
+          <button class="server-card copy-ip" data-copy="15.235.104.222:25570" title="Click to copy server IP">
+            <span class="server-card-label">SERVER IP</span>
+            <strong>15.235.104.222:25570</strong>
+            <span class="copy-hint">CLICK TO COPY</span>
+          </button>
+          <a class="pixel-btn primary" href="https://discord.gg/shRX5nPGAf" target="_blank" rel="noopener">JOIN DISCORD</a>
+        </div>
+
+        <div class="quick-stats">
+          <div><small>VERSION</small><b>26.2</b></div>
+          <div><small>STYLE</small><b>RPG SURVIVAL</b></div>
+          <div><small>WORLD</small><b>COMMUNITY</b></div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="card-top"><span></span><span></span><span></span></div>
+        <div class="sword-art" aria-hidden="true">
+          <div class="sword-pixel blade"></div>
+          <div class="sword-pixel guard"></div>
+          <div class="sword-pixel handle"></div>
+        </div>
+        <h3>ENTER THE REALM</h3>
+        <p>Build • Fight • Trade • Explore • Ascend</p>
+        <div class="status-line"><span class="status-dot"></span> Ready for adventurers</div>
+      </div>
+    </section>
+
+    <section class="ticker" aria-label="Server highlights">
+      <div>🐉 CUSTOM MOBS</div><div>⚔ CUSTOM ITEMS</div><div>✨ CUSTOM ENCHANTS</div><div>🌟 SKILLS</div><div>💰 ECONOMY</div><div>🔨 AUCTION HOUSE</div><div>🏰 LAND CLAIMS</div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="section-heading">
+        <span class="kicker">THE EXODUS EXPERIENCE</span>
+        <h2>More than vanilla survival.</h2>
+        <p>Progress your character, hunt stronger enemies, collect better gear, build a fortune, and leave your mark on the world.</p>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card"><div class="feature-icon">🐉</div><h3>Custom Mobs</h3><p>Battle unique monsters and dangerous enemies designed to make exploration worth the risk.</p></article>
+        <article class="feature-card"><div class="feature-icon">⚔️</div><h3>Custom Items</h3><p>Discover powerful weapons, armor, artifacts, rare loot, and upgrades beyond ordinary survival.</p></article>
+        <article class="feature-card"><div class="feature-icon">✨</div><h3>Custom Enchants</h3><p>Create powerful builds and specialize your equipment with enchants beyond vanilla Minecraft.</p></article>
+        <article class="feature-card"><div class="feature-icon">🌟</div><h3>Skills & Progression</h3><p>Level up as you play, improve your capabilities, and push toward stronger content and rewards.</p></article>
+        <article class="feature-card"><div class="feature-icon">💰</div><h3>Player Economy</h3><p>Earn, trade, buy, sell, and build your fortune in a community-driven server economy.</p></article>
+        <article class="feature-card"><div class="feature-icon">🔨</div><h3>Auction House</h3><p>List valuable gear and resources server-wide so other adventurers can buy what you find.</p></article>
+        <article class="feature-card"><div class="feature-icon">🏰</div><h3>GriefPrevention</h3><p>Claim your land and protect your builds so your kingdom stays yours.</p></article>
+        <article class="feature-card"><div class="feature-icon">🤝</div><h3>Community Server</h3><p>Build, adventure, trade, duel, explore, and progress together with other players.</p></article>
+      </div>
+    </section>
+
+
+    <section id="classes" class="section">
+      <div class="section-heading">
+        <span class="kicker">CHOOSE YOUR PATH</span>
+        <h2>Exodus RPG Classes</h2>
+        <p>Pick a class, develop your playstyle, and build your legend across the Exodus realm.</p>
+      </div>
+      <div class="classes-grid">
+        <article class="class-card"><div class="class-icon">💀</div><h3>Necromancer</h3><p>Command dark magic, undead power, curses, and death-themed abilities.</p></article>
+        <article class="class-card"><div class="class-icon">⚔️</div><h3>Warrior</h3><p>Master melee combat, heavy weapons, toughness, and frontline fighting.</p></article>
+        <article class="class-card"><div class="class-icon">🔮</div><h3>Mage</h3><p>Harness destructive and utility magic for powerful ranged spellcasting.</p></article>
+        <article class="class-card"><div class="class-icon">✨</div><h3>Cleric</h3><p>Use holy power, healing, protection, and support abilities.</p></article>
+        <article class="class-card"><div class="class-icon">🗡️</div><h3>Rogue</h3><p>Strike quickly with stealth, mobility, precision, and deadly tricks.</p></article>
+        <article class="class-card"><div class="class-icon">🏹</div><h3>Hunter</h3><p>Specialize in ranged combat, tracking, survival, and hunting dangerous mobs.</p></article>
+        <article class="class-card"><div class="class-icon">🃏</div><h3>Jester</h3><p>Fight unpredictably with tricks, chaos, unusual abilities, and deceptive tactics.</p></article>
+        <article class="class-card"><div class="class-icon">🕷️</div><h3>Spiderman</h3><p>A high-mobility class focused on web-themed powers, agility, and acrobatic combat.</p></article>
+      </div>
+    </section>
+
+    <section id="commands" class="section commands-section">
+      <div class="section-heading left">
+        <span class="kicker">LEARN THE REALM</span>
+        <h2>Useful server commands.</h2>
+        <p>Your in-game command board makes the core server systems easy to find.</p>
+      </div>
+
+      <div class="command-layout">
+        <div class="command-list">
+          <div><code>/rtp</code><span>Random teleport to start exploring</span></div>
+          <div><code>/sethome</code><span>Set your home location</span></div>
+          <div><code>/warp</code><span>Travel to server destinations</span></div>
+          <div><code>/shop</code><span>Access the store and sell items</span></div>
+          <div><code>/ma j sigma</code><span>Join the mob arena and earn rewards</span></div>
+          <div><code>/bal</code><span>Check your balance</span></div>
+          <div><code>/tpa</code><span>Request teleport to another player</span></div>
+          <div><code>/enchanter</code><span>Access enchanting systems</span></div>
+          <div><code>/duel</code><span>Duel another player</span></div>
+          <div><code>/ah</code><span>Open the auction house</span></div>
+          <div><code>/em</code><span>Enter EliteMobs dungeon content</span></div>
+          <div><code>/nexa "msg"</code><span>Talk to the server AI</span></div>
+        </div>
+        <figure class="screenshot-frame">
+          <img src="server-screenshot(1).png" alt="Exodus RPG in-game command board" />
+          <figcaption>In-game Exodus RPG command board</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="gallery" class="section gallery-section">
+      <div class="section-heading">
+        <span class="kicker">WORLD PREVIEW</span>
+        <h2>Adventure starts here.</h2>
+        <p>This page is ready for more screenshots. Upload new screenshots beside <code>index.html</code> and add them to the gallery.</p>
+      </div>
+      <div class="gallery-grid">
+        <figure class="gallery-main"><img src="server-screenshot(1).png" alt="Exodus RPG server screenshot" /><figcaption>Server spawn command guide</figcaption></figure>
+        <div class="gallery-placeholder"><span>+</span><b>ADD BOSS FIGHT</b><small>boss.jpg</small></div>
+        <div class="gallery-placeholder"><span>+</span><b>ADD CUSTOM LOOT</b><small>loot.jpg</small></div>
+      </div>
+    </section>
+
+
+    <section class="google-panel" aria-labelledby="google-connect-title">
+      <div class="google-card">
+        <div>
+          <h3 id="google-connect-title">Google Connection</h3>
+          <p>Optional Google sign-in for future Exodus website features. The public site still works without signing in.</p>
+        </div>
+        <div class="google-auth-actions">
+          <div id="googleSignInButton"></div>
+          <img id="googleAvatar" class="google-avatar" alt="Google profile" />
+          <span id="googleStatus" class="google-status">Not signed in</span>
+          <button id="googleSignOut" class="pixel-btn primary google-signout" type="button">SIGN OUT</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="join" class="join-section">
+      <div class="join-inner">
+        <span class="kicker">🔥 JOIN EXODUS RPG</span>
+        <h2>Forge your legacy.</h2>
+        <p>Load Minecraft, add the server, and begin your adventure.</p>
+        <div class="join-box">
+          <div><small>SERVER IP</small><strong>15.235.104.222:25570</strong></div>
+          <div><small>VERSION</small><strong>26.2</strong></div>
+          <button class="pixel-btn primary copy-ip" data-copy="15.235.104.222:25570">COPY IP</button>
+          <a class="pixel-btn discord" href="https://discord.gg/shRX5nPGAf" target="_blank" rel="noopener">DISCORD</a>
+        </div>
+        <p class="battle-cry">⚔ BUILD • FIGHT • TRADE • EXPLORE • ASCEND ⚔</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="brand footer-brand"><span class="brand-cube"></span><span>EXODUS <b>RPG</b></span></div>
+    <p>Community Minecraft RPG Survival • IP: 15.235.104.222:25570 • Version 26.2</p>
+    <p class="disclaimer">EXODUS RPG is a community server and is not affiliated with Mojang Studios or Microsoft.</p>
+  </footer>
+
+  <div id="toast" role="status" aria-live="polite">Server IP copied!</div>
+  <script>
+const toast = document.getElementById('toast');
+let toastTimer;
+
+document.querySelectorAll('.copy-ip').forEach((button) => {
+  button.addEventListener('click', async () => {
+    const value = button.dataset.copy;
+    try {
+      await navigator.clipboard.writeText(value);
+    } catch (e) {
+      const temp = document.createElement('textarea');
+      temp.value = value;
+      document.body.appendChild(temp);
+      temp.select();
+      document.execCommand('copy');
+      temp.remove();
+    }
+    toast.textContent = `Copied: ${value}`;
+    toast.classList.add('toast-show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('toast-show'), 1800);
+  });
+});
+
+const menuBtn = document.querySelector('.menu-btn');
+const nav = document.querySelector('.nav');
+menuBtn.addEventListener('click', () => {
+  const isOpen = nav.classList.toggle('open');
+  menuBtn.setAttribute('aria-expanded', String(isOpen));
+});
+
+document.querySelectorAll('.nav a').forEach((a) => a.addEventListener('click', () => {
+  nav.classList.remove('open');
+  menuBtn.setAttribute('aria-expanded', 'false');
+}));
+
+// Google Identity Services configuration.
+// IMPORTANT: Do not place private secrets in a public GitHub Pages site.
+window.EXODUS_GOOGLE_CONFIG = {
+  clientId: "868821411419-6amgp0hnu4bvb55gqlbs0upn3rhl3f6c.apps.googleusercontent.com",
+  appId: "868821411419"
+};
+
+function decodeJwtPayload(token) {
+  try {
+    const payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const json = decodeURIComponent(atob(payload).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+    return JSON.parse(json);
+  } catch (e) {
+    return null;
+  }
+}
+
+function updateGoogleUi(profile) {
+  const status = document.getElementById('googleStatus');
+  const avatar = document.getElementById('googleAvatar');
+  const signOut = document.getElementById('googleSignOut');
+  const signInButton = document.getElementById('googleSignInButton');
+
+  if (profile) {
+    status.innerHTML = `<span class="google-name">${profile.name || profile.email || 'Signed in'}</span>`;
+    if (profile.picture) {
+      avatar.src = profile.picture;
+      avatar.style.display = 'inline-block';
+    }
+    signOut.style.display = 'inline-flex';
+    signInButton.style.display = 'none';
+  } else {
+    status.textContent = 'Not signed in';
+    avatar.removeAttribute('src');
+    avatar.style.display = 'none';
+    signOut.style.display = 'none';
+    signInButton.style.display = 'block';
+  }
+}
+
+function handleGoogleCredential(response) {
+  const profile = decodeJwtPayload(response.credential);
+  if (!profile) {
+    document.getElementById('googleStatus').textContent = 'Sign-in failed';
+    return;
+  }
+  sessionStorage.setItem('exodusGoogleProfile', JSON.stringify(profile));
+  updateGoogleUi(profile);
+}
+
+window.addEventListener('load', () => {
+  const cached = sessionStorage.getItem('exodusGoogleProfile');
+  if (cached) {
+    try { updateGoogleUi(JSON.parse(cached)); } catch (_) {}
+  }
+
+  if (window.google?.accounts?.id && window.EXODUS_GOOGLE_CONFIG.clientId) {
+    google.accounts.id.initialize({
+      client_id: window.EXODUS_GOOGLE_CONFIG.clientId,
+      callback: handleGoogleCredential
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById('googleSignInButton'),
+      { theme: 'outline', size: 'large', shape: 'rectangular', text: 'signin_with' }
+    );
+  } else {
+    document.getElementById('googleStatus').textContent = 'Google sign-in unavailable';
+  }
+
+  document.getElementById('googleSignOut').addEventListener('click', () => {
+    sessionStorage.removeItem('exodusGoogleProfile');
+    if (window.google?.accounts?.id) google.accounts.id.disableAutoSelect();
+    updateGoogleUi(null);
+  });
+});
+
+
+  </script>
+</body>
+</html>
