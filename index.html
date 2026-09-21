@@ -93,6 +93,15 @@ button { font: inherit; }
 .join-section { position:relative; padding:105px 24px; text-align:center; background:linear-gradient(rgba(9,12,8,.84),rgba(9,12,8,.94)), url('assets/server-commands.png') center/cover fixed; border-top:4px solid #46593e; border-bottom:4px solid #46593e; }.join-inner { max-width:1040px;margin:auto; }.join-inner h2 { font-family:"Press Start 2P";font-size:clamp(34px,6vw,70px); margin:18px 0;text-shadow:6px 6px #000 }.join-inner>p { color:#c2cbbd; }.join-box { display:grid; grid-template-columns:1.5fr .7fr auto auto; gap:10px; margin:36px auto 26px; padding:14px; background:#11170f; border:4px solid #526348; box-shadow:10px 10px #050705; text-align:left; }.join-box>div { padding:14px 16px; background:#1c2619;border:2px solid #303f2a }.join-box small,.join-box strong{display:block}.join-box small{font-size:9px;color:#84917e;letter-spacing:1px}.join-box strong{font-family:"Press Start 2P";font-size:13px;margin-top:9px}.join-box .pixel-btn { min-height:64px; }.battle-cry { font-family:"Press Start 2P";font-size:10px;line-height:2;color:var(--gold)!important; }
 footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-brand{justify-content:center;margin-bottom:18px}.footer-brand .brand-cube{width:24px;height:24px}.footer-brand{font-size:12px}footer p{color:#7f8a79;font-size:12px}.disclaimer{font-size:10px!important;color:#596254!important;margin-top:18px}
 #toast { position:fixed; left:50%; bottom:28px; transform:translate(-50%,30px); opacity:0; pointer-events:none; z-index:100; background:#7ad85e; color:#0b1208; border:3px solid #a1ef87; box-shadow:5px 5px #000; padding:13px 18px; font-family:"Press Start 2P"; font-size:9px; transition:.2s ease; }.toast-show{opacity:1!important;transform:translate(-50%,0)!important}
+.classes-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+.class-card { padding:24px; background:linear-gradient(180deg,#1a2317,#11170f); border:3px solid #3a4b33; box-shadow:6px 6px 0 #060806; text-align:center; }
+.class-card:hover { transform:translateY(-3px); border-color:var(--gold); }
+.class-icon { font-size:42px; margin-bottom:14px; }
+.class-card h3 { font-family:"Press Start 2P",monospace; font-size:12px; line-height:1.6; color:var(--gold); margin:0 0 12px; }
+.class-card p { color:#9da998; line-height:1.6; font-size:13px; margin:0; }
+@media (max-width:980px){.classes-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.classes-grid{grid-template-columns:1fr}}
+
 @media (max-width:980px){.hero{grid-template-columns:1fr;padding-top:60px;padding-bottom:150px}.hero-card{margin:0;max-width:460px}.feature-grid{grid-template-columns:repeat(2,1fr)}.command-layout{grid-template-columns:1fr}.gallery-grid{grid-template-columns:1fr 1fr}.gallery-main{grid-column:1/-1}.join-box{grid-template-columns:1fr 1fr}.nav{position:fixed;top:74px;right:16px;left:16px;display:none;flex-direction:column;align-items:stretch;padding:18px;background:#11180f;border:3px solid #3d5036;box-shadow:8px 8px #000}.nav.open{display:flex}.menu-btn{display:block}}
 @media (max-width:620px){.topbar{height:64px}.brand{font-size:11px}.brand-cube{width:24px;height:24px}.nav{top:64px}.hero{min-height:auto;padding:58px 18px 135px}.hero h1{font-size:44px;letter-spacing:-2px}.eyebrow{font-size:9px}.hero-copy{font-size:15px}.server-card{min-width:100%;width:100%}.hero-actions .pixel-btn{width:100%}.server-card strong{font-size:15px}.hero-card{padding-left:18px;padding-right:18px}.feature-grid{grid-template-columns:1fr}.section{padding:75px 18px}.section-heading h2{font-size:28px}.command-list div{grid-template-columns:1fr;gap:7px}.gallery-grid{grid-template-columns:1fr}.gallery-placeholder{min-height:240px}.join-box{grid-template-columns:1fr}.join-inner h2{font-size:34px}.quick-stats{display:grid;grid-template-columns:1fr 1fr}.ticker div{font-size:8px;padding:14px 16px}}
 
@@ -121,6 +130,7 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
     <button class="menu-btn" aria-label="Open navigation" aria-expanded="false">☰</button>
     <nav class="nav">
       <a href="#features">Features</a>
+      <a href="#classes">Classes</a>
       <a href="#commands">Commands</a>
       <a href="#gallery">Gallery</a>
       <a href="#join">Join</a>
@@ -139,12 +149,12 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
         <div class="eyebrow">⚔ COMMUNITY RPG SURVIVAL ⚔</div>
         <h1>EXODUS <span>RPG</span></h1>
         <p class="tagline">Your Adventure. Your Kingdom. Your Legacy.</p>
-        <p class="hero-copy">Build your legend in a progression-focused Minecraft RPG world packed with dangerous custom mobs, powerful loot, skills, trading, protected claims, and a player-driven economy.</p>
+        <p class="hero-copy">Build your legend in a progression-focused Minecraft RPG world packed with RPG classes, dangerous dungeons, custom mobs, powerful loot, skills, trading, protected claims, and a player-driven economy.</p>
 
         <div class="hero-actions">
-          <button class="server-card copy-ip" data-copy="173.208.239.34" title="Click to copy server IP">
+          <button class="server-card copy-ip" data-copy="15.235.104.222:25570" title="Click to copy server IP">
             <span class="server-card-label">SERVER IP</span>
-            <strong>173.208.239.34</strong>
+            <strong>15.235.104.222:25570</strong>
             <span class="copy-hint">CLICK TO COPY</span>
           </button>
           <a class="pixel-btn primary" href="https://discord.gg/shRX5nPGAf" target="_blank" rel="noopener">JOIN DISCORD</a>
@@ -154,6 +164,7 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
           <div><small>VERSION</small><b>26.2</b></div>
           <div><small>STYLE</small><b>RPG SURVIVAL</b></div>
           <div><small>WORLD</small><b>COMMUNITY</b></div>
+          <div><small>CONTENT</small><b>CLASSES + DUNGEONS</b></div>
         </div>
       </div>
 
@@ -171,7 +182,7 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
     </section>
 
     <section class="ticker" aria-label="Server highlights">
-      <div>🐉 CUSTOM MOBS</div><div>⚔ CUSTOM ITEMS</div><div>✨ CUSTOM ENCHANTS</div><div>🌟 SKILLS</div><div>💰 ECONOMY</div><div>🔨 AUCTION HOUSE</div><div>🏰 LAND CLAIMS</div>
+      <div>🧙 RPG CLASSES</div><div>🏰 DUNGEONS</div><div>🐉 CUSTOM MOBS</div><div>⚔ CUSTOM ITEMS</div><div>✨ CUSTOM ENCHANTS</div><div>🌟 SKILLS</div><div>💰 ECONOMY</div><div>🔨 AUCTION HOUSE</div><div>🏰 LAND CLAIMS</div>
     </section>
 
     <section id="features" class="section">
@@ -182,6 +193,8 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
       </div>
 
       <div class="feature-grid">
+        <article class="feature-card"><div class="feature-icon">🧙</div><h3>RPG Classes</h3><p>Choose a combat class with its own identity, abilities, progression, and playstyle.</p></article>
+        <article class="feature-card"><div class="feature-icon">🏰</div><h3>Dungeons</h3><p>Enter dangerous dungeon content, fight powerful enemies and bosses, and hunt valuable rewards.</p></article>
         <article class="feature-card"><div class="feature-icon">🐉</div><h3>Custom Mobs</h3><p>Battle unique monsters and dangerous enemies designed to make exploration worth the risk.</p></article>
         <article class="feature-card"><div class="feature-icon">⚔️</div><h3>Custom Items</h3><p>Discover powerful weapons, armor, artifacts, rare loot, and upgrades beyond ordinary survival.</p></article>
         <article class="feature-card"><div class="feature-icon">✨</div><h3>Custom Enchants</h3><p>Create powerful builds and specialize your equipment with enchants beyond vanilla Minecraft.</p></article>
@@ -190,6 +203,39 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
         <article class="feature-card"><div class="feature-icon">🔨</div><h3>Auction House</h3><p>List valuable gear and resources server-wide so other adventurers can buy what you find.</p></article>
         <article class="feature-card"><div class="feature-icon">🏰</div><h3>GriefPrevention</h3><p>Claim your land and protect your builds so your kingdom stays yours.</p></article>
         <article class="feature-card"><div class="feature-icon">🤝</div><h3>Community Server</h3><p>Build, adventure, trade, duel, explore, and progress together with other players.</p></article>
+      </div>
+    </section>
+
+
+    <section id="classes" class="section">
+      <div class="section-heading">
+        <span class="kicker">CHOOSE YOUR PATH</span>
+        <h2>Exodus RPG Classes</h2>
+        <p>Pick a class, develop your playstyle, and build your legend across the Exodus realm.</p>
+      </div>
+      <div class="classes-grid">
+        <article class="class-card"><div class="class-icon">💀</div><h3>Necromancer</h3><p>Command dark magic, undead power, curses, and death-themed abilities.</p></article>
+        <article class="class-card"><div class="class-icon">⚔️</div><h3>Warrior</h3><p>Master melee combat, heavy weapons, toughness, and frontline fighting.</p></article>
+        <article class="class-card"><div class="class-icon">🔮</div><h3>Mage</h3><p>Harness destructive and utility magic for powerful ranged spellcasting.</p></article>
+        <article class="class-card"><div class="class-icon">✨</div><h3>Cleric</h3><p>Use holy power, healing, protection, and support abilities.</p></article>
+        <article class="class-card"><div class="class-icon">🗡️</div><h3>Rogue</h3><p>Strike quickly with stealth, mobility, precision, and deadly tricks.</p></article>
+        <article class="class-card"><div class="class-icon">🏹</div><h3>Hunter</h3><p>Specialize in ranged combat, tracking, survival, and hunting dangerous mobs.</p></article>
+        <article class="class-card"><div class="class-icon">🃏</div><h3>Jester</h3><p>Fight unpredictably with tricks, chaos, unusual abilities, and deceptive tactics.</p></article>
+        <article class="class-card"><div class="class-icon">🕷️</div><h3>Spiderman</h3><p>A high-mobility class focused on web-themed powers, agility, and acrobatic combat.</p></article>
+      </div>
+    </section>
+
+    <section id="dungeons" class="section">
+      <div class="section-heading">
+        <span class="kicker">ENTER THE DEPTHS</span>
+        <h2>Exodus RPG Dungeons</h2>
+        <p>Challenge dangerous dungeon content filled with stronger enemies, boss encounters, and valuable loot. Use <code>/em</code> in game to access EliteMobs dungeon content.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card"><div class="feature-icon">🚪</div><h3>Dungeon Adventures</h3><p>Leave ordinary survival behind and enter dedicated combat encounters built for adventurers.</p></article>
+        <article class="feature-card"><div class="feature-icon">👹</div><h3>Boss Battles</h3><p>Face dangerous enemies and bosses that demand stronger builds, skills, and equipment.</p></article>
+        <article class="feature-card"><div class="feature-icon">💎</div><h3>Dungeon Loot</h3><p>Fight for valuable drops, equipment, resources, and progression rewards.</p></article>
+        <article class="feature-card"><div class="feature-icon">⚔️</div><h3>Build Your Class</h3><p>Take your chosen Exodus class into dungeon combat and develop your character through tougher challenges.</p></article>
       </div>
     </section>
 
@@ -216,7 +262,7 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
           <div><code>/nexa "msg"</code><span>Talk to the server AI</span></div>
         </div>
         <figure class="screenshot-frame">
-          <img src="server-screenshot.png" alt="Exodus RPG in-game command board" />
+          <img src="server-screenshot(1).png" alt="Exodus RPG in-game command board" />
           <figcaption>In-game Exodus RPG command board</figcaption>
         </figure>
       </div>
@@ -229,7 +275,7 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
         <p>This page is ready for more screenshots. Upload new screenshots beside <code>index.html</code> and add them to the gallery.</p>
       </div>
       <div class="gallery-grid">
-        <figure class="gallery-main"><img src="server-screenshot.png" alt="Exodus RPG server screenshot" /><figcaption>Server spawn command guide</figcaption></figure>
+        <figure class="gallery-main"><img src="server-screenshot(1).png" alt="Exodus RPG server screenshot" /><figcaption>Server spawn command guide</figcaption></figure>
         <div class="gallery-placeholder"><span>+</span><b>ADD BOSS FIGHT</b><small>boss.jpg</small></div>
         <div class="gallery-placeholder"><span>+</span><b>ADD CUSTOM LOOT</b><small>loot.jpg</small></div>
       </div>
@@ -257,9 +303,9 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
         <h2>Forge your legacy.</h2>
         <p>Load Minecraft, add the server, and begin your adventure.</p>
         <div class="join-box">
-          <div><small>SERVER IP</small><strong>173.208.239.34</strong></div>
+          <div><small>SERVER IP</small><strong>15.235.104.222:25570</strong></div>
           <div><small>VERSION</small><strong>26.2</strong></div>
-          <button class="pixel-btn primary copy-ip" data-copy="173.208.239.34">COPY IP</button>
+          <button class="pixel-btn primary copy-ip" data-copy="15.235.104.222:25570">COPY IP</button>
           <a class="pixel-btn discord" href="https://discord.gg/shRX5nPGAf" target="_blank" rel="noopener">DISCORD</a>
         </div>
         <p class="battle-cry">⚔ BUILD • FIGHT • TRADE • EXPLORE • ASCEND ⚔</p>
@@ -269,7 +315,7 @@ footer { padding:45px 24px; text-align:center; background:#090c08; }.footer-bran
 
   <footer>
     <div class="brand footer-brand"><span class="brand-cube"></span><span>EXODUS <b>RPG</b></span></div>
-    <p>Community Minecraft RPG Survival • IP: 173.208.239.34 • Version 26.2</p>
+    <p>Community Minecraft RPG Survival • IP: 15.235.104.222:25570 • Version 26.2</p>
     <p class="disclaimer">EXODUS RPG is a community server and is not affiliated with Mojang Studios or Microsoft.</p>
   </footer>
 
